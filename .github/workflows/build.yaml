@@ -19,7 +19,7 @@ jobs:
       - name: Clone project
         run: git clone --depth=1 ${{ steps.get-project.outputs.PROJECT }} project
       - name: Build the app
-      - uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2
         with:
           gradle-version: current
           arguments: assembleRelease
