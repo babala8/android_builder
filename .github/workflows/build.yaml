@@ -18,10 +18,15 @@ jobs:
         run: echo "::set-output name=PROJECT::$(cat project-to-build)"
       - name: Clone project
         run: git clone --depth=1 ${{ steps.get-project.outputs.PROJECT }} project
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Install Gradle
+        run: |
+          wget https://services.gradle.org/distributions/gradle-7.2-bin.zip
+          unzip gradle-7.2-bin.zip
+          sudo mv gradle-7.2 /opt/gradle
+          echo 'export PATH=$PATH:/opt/gradle/bin' >> ~/.bashrc
+          source ~/.bashrc
       - name: Build with Gradle
-        run: ./gradlew build
+        run: gradle build
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
